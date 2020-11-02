@@ -1,0 +1,79 @@
+body{
+    margin: auto;
+
+
+}
+
+h1,
+h2,
+h3,
+h4,
+h6 {
+	margin-top: 0;
+  background-color: red;
+  border-bottom: 1px solid rgba(0, 0, 0, .3);
+  text-transform: uppercase;
+  padding: 10px;
+  height: 35px;
+  text-align: center;
+  font-size: 21px;
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1px;
+}
+ 
+
+ 
+h5 {
+	text-align: center;
+	font-family: 'Montserrat', sans-serif;
+	word-wrap:break-word;
+	color: #000000;
+}
+
+@font-face {
+    font-family: 'SegoeUI';
+    src: url('/fonts/SegoeUI.ttf');
+  }
+
+* {
+    font-family: "Segoe UI", "Segoe UI Symbol", "Segoe UI Emoji",  Arial, sans-serif;
+}
+
+.frl {
+	position: absolute;
+    margin: auto;
+    top: 10px;
+	width:300px;
+    height:200px;
+    font-family: 'SegoeUI';
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-size: 120%;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.7);
+	border-radius: 17px;
+	border: 5px solid red;
+	animation: slide 11s;
+}
+
+#message {
+	text-align: center;
+}
+#hr {
+	animation:myfirst 10s infinite;
+}
+
+  @keyframes slide{
+  0%{ transform:translateY(-300px) }
+  25%{ transform:translateY(0px) }
+  30%{ transform:translateY(0px) }
+  35%{ transform:translateY(0px) }
+  55%{ transform:translateY(0px) }
+  100%{ transform:translateY(-300px) }
+}
+
