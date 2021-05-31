@@ -1,7 +1,9 @@
-client_script 'client.lua'
+client_script 'client/client.lua'
 shared_script 'config.lua'
-server_script 'server_config.lua'
-server_script 'server.lua'
+server_scripts { 
+'server_config.lua',
+'server.lua'
+}
 
 ui_page {
   'index.html'

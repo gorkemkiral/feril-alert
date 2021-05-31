@@ -1,17 +1,24 @@
-local function isAdmin(source)
-    local allowed = false
-    for i,id in ipairs(Config.FRL.admins) do
-        for x,pid in ipairs(GetPlayerIdentifiers(source)) do
-            if string.lower(pid) == string.lower(id) then
-                allowed = true
-            end
+local ESX = nil
+
+TriggerEvent('esx:getSharedObject', function(obj) 
+    ESX = obj 
+end)
+
+ESX.RegisterServerCallback("feril-alert:fetchUserRank", function(source, cb)
+    local player = ESX.GetPlayerFromId(source)
+
+    if player ~= nil then
+        local playerGroup = player.getGroup()
+
+        if playerGroup ~= nil then 
+            cb(playerGroup)
+        else
+            cb("user")
         end
-	end
-	if IsPlayerAceAllowed(source, "lance.frl") then
-		allowed = true
-	end
-    return allowed
-end
+    else
+        cb("user")
+    end
+end)
 
 local function stringsplit(inputstr, sep)
 	if sep == nil then
@@ -24,21 +31,28 @@ local function stringsplit(inputstr, sep)
 	end
 	return t
 end
-
 RegisterServerEvent("alert:sv")
 AddEventHandler("alert:sv", function (msg, msg2)
-	if (isAdmin(source)) then
-    		TriggerClientEvent("SendAlert", -1, msg, msg2)
-	end
-end)
+local player = GetPlayerName(source)
+			TriggerClientEvent("SendAlert", -1, msg, msg2)
+			print('^1Sunucu Duyurusu: ^9' .. msg2 .. ' ^6Yetkili:^2 ' .. player .. '^0')
+			PerformHttpRequest(Config.Webhook, 
+			function(err, msg2, player) end, 
+			'POST', 
+			--json.encode({username = player, content = '```fix\nDuyuru: \n' .. msg2 .. '```', avatar_url=Config.Resim }), {['Content-Type'] = 'application/json'}) 
+			json.encode({username = player, avatar_url= Config.resim, embeds = {
+				{
+					["color"] = "1127128",
+					["title"] = 'Duyuru',
+					["description"] = '**Yetkili: ** '.. player ..' \n **Mesaj: **'  .. msg2 
+				}
+				}}), { ['Content-Type'] = 'application/json' })
+		end)
 
-AddEventHandler('chatMessage', function(source, name, msg)
-	if (isAdmin(source)) then
+AddEventHandler('chatMessage', function(source, name, msg, msg2)
 		local command = stringsplit(msg, " ")[1];
-
 		if command == "/alert" then
 		CancelEvent()
-		TriggerClientEvent("alert:Send", source, string.sub(msg, 8), Config.FRL.sys)
+		TriggerClientEvent("alert:Send", source, string.sub(msg, 8), Config.FRL.Departments)
 		end
-	end
 end)
